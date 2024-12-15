@@ -1,0 +1,1 @@
+ C:\\Users\\21620\\Desktop\\FlexiSpace\\.dart_tool\\flutter_build\\1bf39e2193968a58d2f52161d7f3e7a7\\native_assets.yaml: 

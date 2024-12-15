@@ -74,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           // Add logic for editing profile if needed
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color(0xFFFF9500),
+                          backgroundColor: Color(0xFFFF9500),
                           elevation: 0,
                           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                           shape: RoundedRectangleBorder(

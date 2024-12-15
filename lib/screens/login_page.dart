@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.pushNamed(context, '/home');
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFFFF9500),
+                        backgroundColor: const Color(0xFFFF9500),
                         elevation: 0,
                         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                         shape: const RoundedRectangleBorder(

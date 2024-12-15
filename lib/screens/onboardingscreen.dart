@@ -21,10 +21,10 @@ class OnboardingScreen extends StatelessWidget {
             children: [
               // Logo and Title
               Padding(
-                padding: const EdgeInsets.only(top: 60.0),
+                padding: const EdgeInsets.only(top: 2.0),
                 child: Column(
                   children: [
-                    Image.asset('lib/assets/img_1.png', height: 80),
+                    Image.asset('lib/assets/img_1.png', height: 100),
                     const SizedBox(height: 10),
                     Text(
                       'Flexi-Space',
@@ -39,7 +39,7 @@ class OnboardingScreen extends StatelessWidget {
               ),
 
               // Image
-              const SizedBox(height: 30),
+              const SizedBox(height: 0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: ClipRRect(
@@ -53,12 +53,12 @@ class OnboardingScreen extends StatelessWidget {
               ),
 
               // Title and Subtitle
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Text(
                 'Discover Endless Possibilities\nwith Flexi-space',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
                 ),
