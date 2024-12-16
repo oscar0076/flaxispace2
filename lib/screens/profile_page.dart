@@ -130,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
-          BottomNavBarWidget(), // Bottom nav bar
+          BottomNavBarWidget(currentIndex: 2), // Bottom nav bar
         ],
       ),
     );
