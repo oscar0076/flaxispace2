@@ -19,7 +19,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Background image with a gradient overlay
                 Positioned.fill(
                   child: Image.asset(
-                    'lib/assets/téléchargement.jpg',
+                    'assets/téléchargement.jpg',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -46,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       // Profile Picture
                       CircleAvatar(
                         radius: 60,
-                        backgroundImage: AssetImage('lib/assets/téléchargement.jpg'),
+                        backgroundImage: AssetImage('assets/téléchargement.jpg'),
                       ),
                       SizedBox(height: 16),
                       // User Name
@@ -114,14 +114,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     Expanded(
                       child: _ReservationCard(
-                        imageUrl: 'lib/assets/images.jpg',
+                        imageUrl: 'assets/images.jpg',
                         title: 'Workspace 1',
                       ),
                     ),
                     SizedBox(width: 16),
                     Expanded(
                       child: _ReservationCard(
-                        imageUrl: 'lib/assets/images.jpg',
+                        imageUrl: 'assets/images.jpg',
                         title: 'Workspace 2',
                       ),
                     ),
