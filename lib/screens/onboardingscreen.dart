@@ -24,7 +24,7 @@ class OnboardingScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 2.0),
                 child: Column(
                   children: [
-                    Image.asset('lib/assets/img_1.png', height: 100),
+                    Image.asset('assets/img_1.png', height: 100),
                     const SizedBox(height: 10),
                     Text(
                       'Flexi-Space',
@@ -45,7 +45,7 @@ class OnboardingScreen extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: Image.asset(
-                    'lib/assets/img.png', // Ensure this is the correct path for your image
+                    'assets/img.png', // Ensure this is the correct path for your image
                     fit: BoxFit.cover,
                     height: 200,
                   ),

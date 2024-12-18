@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app/screens/AddWorkspacePage.dart';
 import 'package:flutter/material.dart';
 import 'screens/home_page.dart';
@@ -7,9 +8,14 @@ import 'screens/signup_page.dart';
 import 'screens/onboardingscreen.dart';
 import 'screens/faq.dart';
 import 'screens/set_location.dart';
+import "firebase_options.dart";
 
-void main() {
-  runApp(MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+ await Firebase.initializeApp(
+   options: DefaultFirebaseOptions.currentPlatform,
+ );
+ runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

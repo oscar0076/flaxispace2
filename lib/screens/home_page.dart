@@ -50,15 +50,15 @@ class HomePage extends StatelessWidget {
             child: ListView(
               children: [
                 CoworkingCardWidget(
-                  imageUrl: 'lib/assets/ariana.jpg',
+                  imageUrl: 'assets/ariana.jpg',
                   title: 'Ariana Co-Working',
                 ),
                 CoworkingCardWidget(
-                  imageUrl: 'lib/assets/images.jpg',
+                  imageUrl: 'assets/images.jpg',
                   title: 'Ghazala Working Space',
                 ),
                 CoworkingCardWidget(
-                  imageUrl: 'lib/assets/téléchargement.jpg',
+                  imageUrl: 'assets/téléchargement.jpg',
                   title: 'JS Master Co-Working',
                 ),
               ],
