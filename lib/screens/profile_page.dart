@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/bottom_navbar_widget.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -7,6 +9,56 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String username = 'User';
+  String email = 'example@example.com';
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserProfile();
+  }
+
+  Future<void> loadUserProfile() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Set email directly from the user object
+        setState(() {
+          email = user.email ?? 'example@example.com';
+        });
+
+        // Check if display name exists in the user object
+        if (user.displayName != null && user.displayName!.isNotEmpty) {
+          setState(() {
+            username = user.displayName!;
+          });
+          return;
+        }
+
+        // If no display name, fetch from Firestore
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+
+        if (userDoc.exists && mounted) {
+          final userData = userDoc.data() as Map<String, dynamic>;
+          final fetchedUsername = userData['username'] ??
+              userData['name'] ??
+              userData['displayName'] ??
+              'User';
+
+          setState(() {
+            username = fetchedUsername;
+          });
+        }
+      }
+    } catch (e) {
+      print('Error loading user profile: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,9 +101,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         backgroundImage: AssetImage('assets/téléchargement.jpg'),
                       ),
                       SizedBox(height: 16),
-                      // User Name
+                      // Dynamic User Name
                       Text(
-                        'Mohamed Salah',
+                        username,
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -59,9 +111,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       SizedBox(height: 8),
-                      // User Email
+                      // Dynamic User Email
                       Text(
-                        'mohamed@example.com',
+                        email,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.white70,
@@ -174,3 +226,4 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+
