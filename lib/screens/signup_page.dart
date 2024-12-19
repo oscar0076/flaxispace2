@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:first_app/screens/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:flutter/material.dart';
-
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -11,34 +9,72 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  // Firebase Auth instance
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final FirebaseAuthService _auth = FirebaseAuthService();
-
+  // TextEditingControllers
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
+  // SignUp Function
   Future<void> _signup() async {
-    String username = _usernameController.value.text;
-    String email = _emailController.value.text;
-    String password = _passwordController.value.text;
+    String username = _usernameController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    String confirmPassword = _confirmPasswordController.text.trim();
 
-    User? user =await _auth.signInWithEmailAndPassword(email, password);
-    if (user != null){
-      print("User is succesfully created");
-      Navigator.pushNamed(context, '/login');
-    } else{
-      print("Some error happened");
+    // Validation
+    if (username.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      print('All fields are required');
+      return;
     }
 
+    if (password != confirmPassword) {
+      print('Passwords do not match');
+      return;
+    }
+
+    if (password.length < 6) {
+      print('Password must be at least 6 characters long');
+      return;
+    }
+
+    try {
+      // Create user with Firebase Authentication
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Update username
+      await userCredential.user?.updateDisplayName(username);
+
+      print("User successfully created: ${userCredential.user?.email}");
+
+      // Navigate to the login page
+      Navigator.pushNamed(context, '/login');
+    } on FirebaseAuthException catch (e) {
+      // Handle Firebase errors
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('An account already exists for that email.');
+      } else {
+        print('Error: ${e.message}');
+      }
+    } catch (e) {
+      print('An unexpected error occurred: $e');
+    }
   }
 
-
   @override
-  void dispose(){
+  void dispose() {
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -71,6 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Username Field
             TextField(
               controller: _usernameController,
               decoration: const InputDecoration(
@@ -79,11 +116,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8)), // Adding BorderRadius.circular(8)
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
               ),
             ),
             const SizedBox(height: 16),
+
+            // Email Field
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -92,11 +131,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8)), // Adding BorderRadius.circular(8)
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
               ),
             ),
             const SizedBox(height: 16),
+
+            // Password Field
             TextField(
               controller: _passwordController,
               obscureText: true,
@@ -106,13 +147,15 @@ class _SignUpPageState extends State<SignUpPage> {
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8)), // Adding BorderRadius.circular(8)
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
               ),
             ),
             const SizedBox(height: 16),
+
+            // Confirm Password Field
             TextField(
-              controller: _passwordController,
+              controller: _confirmPasswordController,
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: "Confirm Password",
@@ -120,18 +163,20 @@ class _SignUpPageState extends State<SignUpPage> {
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8)), // Adding BorderRadius.circular(8)
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
               ),
             ),
             const SizedBox(height: 32),
+
+            // Sign Up Button
             ElevatedButton(
               onPressed: _signup,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                 backgroundColor: const Color(0xFFFF9500),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8)), // Adding BorderRadius.circular(8)
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
               ),
               child: const Text(
@@ -140,6 +185,8 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
             const SizedBox(height: 16),
+
+            // Already have an account button
             ElevatedButton(
               onPressed: () {
                 // Navigate to the login page
@@ -150,7 +197,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 backgroundColor: Colors.transparent,
                 side: const BorderSide(color: Colors.white),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8)), // Adding BorderRadius.circular(8)
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
               ),
               child: const Text(

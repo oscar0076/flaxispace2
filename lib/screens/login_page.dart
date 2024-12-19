@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -6,8 +7,47 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance; // FirebaseAuth instance
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  String _errorMessage = ''; // To store error messages
+
+  // Login function
+  Future<void> _login() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      setState(() {
+        _errorMessage = 'Please enter both email and password';
+      });
+      return;
+    }
+
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Successful login, navigate to home page
+      Navigator.pushReplacementNamed(context, '/home');
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        if (e.code == 'user-not-found') {
+          _errorMessage = 'No user found for that email.';
+        } else if (e.code == 'wrong-password') {
+          _errorMessage = 'Wrong password provided for that user.';
+        } else {
+          _errorMessage = 'An error occurred: ${e.message}';
+        }
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'An unexpected error occurred: $e';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             AppBar(
-              backgroundColor: Colors.transparent, // Make the AppBar blend with the gradient
+              backgroundColor: Colors.transparent,
               elevation: 0,
               title: const Text(
                 "Log In",
@@ -32,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back, color: Colors.white),
                 onPressed: () {
-                  Navigator.pop(context); // Takes the user back to the previous page
+                  Navigator.pop(context);
                 },
               ),
             ),
@@ -76,11 +116,19 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 24),
+
+                    // Error message display
+                    if (_errorMessage.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          _errorMessage,
+                          style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+
                     ElevatedButton(
-                      onPressed: () {
-                        // Navigate directly to the home page after login
-                        Navigator.pushNamed(context, '/home');
-                      },
+                      onPressed: _login,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFF9500),
                         elevation: 0,
