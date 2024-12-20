@@ -114,7 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 labelText: "Username",
                 hintText: "Enter your username",
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Colors.black12,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
@@ -129,7 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 labelText: "Email",
                 hintText: "Enter your email",
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Colors.black12,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
@@ -145,7 +145,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 labelText: "Password",
                 hintText: "Enter your password",
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Colors.black12,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
@@ -161,7 +161,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 labelText: "Confirm Password",
                 hintText: "Re-enter your password",
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Colors.black12,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),

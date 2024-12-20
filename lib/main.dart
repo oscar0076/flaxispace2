@@ -9,7 +9,8 @@ import 'screens/onboardingscreen.dart';
 import 'screens/faq.dart';
 import 'screens/set_location.dart';
 import "firebase_options.dart";
-
+import 'screens/coworkingprofile.dart';
+import 'screens/booking.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
  await Firebase.initializeApp(
@@ -35,6 +36,8 @@ class MyApp extends StatelessWidget {
         '/create':(context) => AddWorkspacePage(),
         '/faqscreen': (context) => FAQScreen(),
         '/setlocation':(context) =>SetLocationPage(),
+        '/coworkingscreen': (context) => CoworkingSpaceProfile(),
+        '/booking': (context) => Booking(),
       },
     );
   }
